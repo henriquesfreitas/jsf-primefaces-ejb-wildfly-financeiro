@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<ui:composition template="_template.xhtml">
+
+	<ui:define name="titulo">
+		Movimentação
+	</ui:define>
+
+	<ui:define name="conteudo">
+		<h:form>
+			<p:messages id="messages" />
+			<p:panel header="Cadastro de Movimentação">
+				<p>
+					<h:outputLabel value="Selecione a Conta" for="conta" />
+					<p:selectOneMenu
+						value="#{movimentacaoBean.movimentacaoDTO.contaDTO.id}" id="conta"
+						required="true" requiredMessage="Conta obrigatório">
+						<f:selectItems value="#{movimentacaoBean.listaContas}"
+							var="contaDTO" itemLabel="#{contaDTO.numero}"
+							itemValue="#{contaDTO.id}" />
+					</p:selectOneMenu>
+				</p>
+				<p>
+					<h:outputLabel value="Selecione o Tipo:" for="tipo" />
+					<p:selectOneMenu value="#{movimentacaoBean.movimentacaoDTO.tipo}"
+						id="tipo" required="true" requiredMessage="Tipo obrigatório">
+						<f:selectItems
+							value="#{movimentacaoBean.listaMovimentacaoTipoEnum}"
+							var="movimentacaoTipoEnum"
+							itemLabel="#{movimentacaoTipoEnum.valor}"
+							itemValue="#{movimentacaoTipoEnum.valor}" />
+					</p:selectOneMenu>
+				</p>
+				<p>
+				<h:outputText value="Valor: " />
+				<p:inputNumber value="#{movimentacaoBean.movimentacaoDTO.valor}"
+					decimalPlaces="2" required="true"
+					requiredMessage="Valor obrigatório" />
+</p>
+				<p:commandButton value="Salvar(Enviar para a fila)"
+					action="#{movimentacaoBean.salvar()}" 
+						update="@form :formDataTableMovimentacao:dataTableMovimentacao" />
+			</p:panel>
+		</h:form>
+
+		<h:form id="formDataTableMovimentacao">
+			<p:dataTable var="movimentacaoDTO" value="#{movimentacaoBean.listaMovimentacaoDTO}"
+				id="dataTableMovimentacao" paginator="true" rows="6">
+				<f:facet name="header">Movimentações</f:facet>
+
+				<p:column headerText="Id" sortBy="#{movimentacaoDTO.id}"
+					filterBy="#{movimentacaoDTO.id}" filterMatchMode="startsWith">
+					<h:outputText value="#{movimentacaoDTO.id}" />
+				</p:column>
+
+				<p:column headerText="Criacao" sortBy="#{movimentacaoDTO.criacaoString}">
+					<h:outputText value="#{movimentacaoDTO.criacaoString}">
+						<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss"
+							timeZone="America/Sao_Paulo" />
+					</h:outputText>
+				</p:column>
+
+				<p:column headerText="Alteração" sortBy="#{movimentacaoDTO.alteracaoString}">
+					<h:outputText value="#{movimentacaoDTO.alteracaoString}">
+					<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss"
+							timeZone="America/Sao_Paulo" />
+					</h:outputText>
+				</p:column>
+
+				<p:column headerText="Conta" sortBy="#{movimentacaoDTO.contaDTO.numero}">
+					<h:outputText value="#{movimentacaoDTO.contaDTO.numero}" />
+				</p:column>
+
+				<p:column headerText="Tipo" sortBy="#{movimentacaoDTO.tipo}">
+					<h:outputText value="#{movimentacaoDTO.tipo}" />
+				</p:column>
+
+				<p:column headerText="Valor" sortBy="#{movimentacaoDTO.valor}">
+					<h:outputText value="#{movimentacaoDTO.valor}">
+						<f:convertNumber type="currency" pattern="R$ #0.00"
+							currencySymbol="R$" locale="pt_BR" />
+					</h:outputText>
+				</p:column>
+			</p:dataTable>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

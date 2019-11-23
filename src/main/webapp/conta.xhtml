@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<ui:composition template="_template.xhtml">
+
+	<ui:define name="titulo">
+		Conta
+	</ui:define>
+
+	<ui:define name="conteudo">
+		<h:form>
+			<p:messages id="messages" severity=""/>
+			<p:panel header="Cadastro de Conta">
+				<h:panelGrid columns="2" cellpadding="4">
+					<h:outputText value="Número: " />
+					<p:inputNumber value="#{contaBean.contaDTO.numero}" required="true"
+						requiredMessage="Número obrigatório" maxValue="99999"
+						decimalPlaces="0" />
+
+					<h:outputText value="Valor: " />
+					<p:inputNumber value="#{contaBean.contaDTO.valor}" required="true"
+						decimalPlaces="2" />
+
+					<p:commandButton value="Submit" action="#{contaBean.salvar()}"
+						update="@form :formDataTableConta:dataTableConta" />
+				</h:panelGrid>
+			</p:panel>
+		</h:form>
+
+		<h:form id="formDataTableConta">
+			<p:dataTable var="contaDTO" value="#{contaBean.listaContaDTO}"
+				id="dataTableConta" paginator="true" rows="5">
+				<f:facet name="header">Contas</f:facet>
+
+				<p:column headerText="Id" sortBy="#{contaDTO.id}"
+					filterBy="#{contaDTO.id}" filterMatchMode="startsWith">
+					<h:outputText value="#{contaDTO.id}" />
+				</p:column>
+
+				<p:column headerText="Criacao" sortBy="#{contaDTO.criacao}">
+					<h:outputText value="#{contaDTO.criacao}">
+						<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss"
+							timeZone="America/Sao_Paulo" />
+					</h:outputText>
+				</p:column>
+
+				<p:column headerText="Alteração" sortBy="#{contaDTO.alteracao}">
+					<h:outputText value="#{contaDTO.alteracao}" />
+				</p:column>
+
+				<p:column headerText="Número" sortBy="#{contaDTO.numero}">
+					<h:outputText value="#{contaDTO.numero}" />
+				</p:column>
+
+				<p:column headerText="Valor" sortBy="#{contaDTO.valor}">
+					<h:outputText value="#{contaDTO.valor}">
+						<f:convertNumber type="currency" pattern="R$ #0.00"
+							currencySymbol="R$" locale="pt_BR" />
+					</h:outputText>
+				</p:column>
+			</p:dataTable>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

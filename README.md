@@ -5,3 +5,4 @@
 - Hibernate
 - Java 8
 - Postgres
+- JMS

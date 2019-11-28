@@ -1,9 +1,10 @@
 ## Tecnologias:
-- JSF 2.3
+- Java 8
 - Wildfly 17
+- JSF 2.3
+- Primefaces 7.0
 - EJB
 - Hibernate
-- Java 8
 - Postgres
 - JMS
 

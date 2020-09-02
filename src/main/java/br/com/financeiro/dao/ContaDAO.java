@@ -13,7 +13,12 @@ import javax.persistence.PersistenceContext;
 import br.com.financeiro.dto.ContaDTO;
 import br.com.financeiro.model.Conta;
 
-@Stateless //EJB para controlar a transação automaticamente
+@Stateless
+//EJB para controlar a transação automaticamente
+//@Stateless para não salvar o objeto após a chamada, é o normalmente utilizado
+//@Stateful para manter o objeto na sessão, utilizado para carrinho de compras por exemplo
+//@Startup @Singleton para executar somente uma vez na inicialização do sistema
+//https://www.devmedia.com.br/ejb-introducao-ao-novo-enterprise-javabeans-3-2/30807
 public class ContaDAO implements Serializable {
 
 	private static final long serialVersionUID = 1L;

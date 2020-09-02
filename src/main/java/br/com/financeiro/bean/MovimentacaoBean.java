@@ -22,15 +22,16 @@ import br.com.financeiro.model.MovimentacaoTipoEnum;
 @ViewScoped
 public class MovimentacaoBean implements Serializable{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 7187093799219358485L;
 	
 	private MovimentacaoDTO movimentacaoDTO;
 	private List<MovimentacaoDTO> listaMovimentacaoDTO;
 	private List<ContaDTO> listaContas;
 	
+	//https://stackoverflow.com/questions/8138232/should-i-use-ejb-or-inject
+	//you could use @EJB instead of @Inject, it's makes sense since 
+	//ContaDAO use the EJB @Stateless, but with @Inject you can have more options and it's recommend to Java EE 6 or up
+	//"@Inject can inject any bean, while @EJB can only inject EJBs. You can use either to inject EJBs, but I'd prefer @Inject everywhere."
 	@Inject
 	private MovimentacaoDAO movimentacaoDAO;
 	

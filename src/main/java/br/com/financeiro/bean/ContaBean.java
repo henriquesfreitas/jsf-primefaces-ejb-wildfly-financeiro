@@ -15,6 +15,12 @@ import br.com.financeiro.dao.ContaDAO;
 import br.com.financeiro.dao.ContaDAOException;
 import br.com.financeiro.dto.ContaDTO;
 
+//http://blog.triadworks.com.br/nao-misture-anotacoes-do-jsf-com-anotacoes-do-cdi
+//Percebemos aqui que temos um problema, pois o escopo de Request é curto demais para manter o bean na quantidade de tempo que desejamos
+//e o escopo Session é longo demais e acaba mantendo o bean além do que desejamos. O ViewScoped veio para tentar resolver esse problema, 
+//criando um meio-termo entre o Request e o Session.
+//O ViewScoped mantém o estado do bean enquanto houver requisições da mesma view/página, e quando ele muda de página o estado do bean é descartado.
+//https://antoniogoncalves.org/2011/09/25/injection-with-cdi-part-iii/
 @Named
 @ViewScoped
 public class ContaBean implements Serializable {
@@ -24,6 +30,10 @@ public class ContaBean implements Serializable {
 	private ContaDTO contaDTO;
 	private List<ContaDTO> listaContaDTO;
 	
+	//https://stackoverflow.com/questions/8138232/should-i-use-ejb-or-inject
+	//you could use @EJB instead of @Inject, it's makes sense since 
+	//ContaDAO use the EJB @Stateless, but with @Inject you can have more options and it's recommend to Java EE 6 or up
+	//"@Inject can inject any bean, while @EJB can only inject EJBs. You can use either to inject EJBs, but I'd prefer @Inject everywhere."
 	@Inject
 	private ContaDAO contaDAO;
 	
